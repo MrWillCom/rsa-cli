@@ -1,0 +1,16 @@
+{
+  "name": "rsa-tool",
+  "version": "0.1.0beta1",
+  "bin": {
+    "rsat": "./src/main.js"
+  },
+  "private": true,
+  "pkg": {
+    "scripts": "src/**/*.js",
+    "bin": "src",
+    "outputPath": "dist"
+  },
+  "dependencies": {
+    "minimist": "^1.2.5"
+  }
+}
