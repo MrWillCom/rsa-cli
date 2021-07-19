@@ -17,7 +17,7 @@ module.exports = (args) => {
             }
         }, async (err, publicKey, privateKey) => {
             if (err) reject(err)
-            const keyPairPath = `${os.homedir()}/.rsat/keys/${args.keyName}`
+            const keyPairPath = `${os.homedir()}/.rsa/keys/${args.keyName}`
             const publicKeyPath = `${keyPairPath}/rsa.pub`
             const privateKeyPath = `${keyPairPath}/rsa`
             const saveKeyPair = async () => {

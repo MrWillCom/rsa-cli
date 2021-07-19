@@ -5,7 +5,7 @@ const readFile = require('../modules/readFile')
 
 module.exports = (args) => {
     return new Promise(async (resolve, reject) => {
-        const keyPairPath = `${os.homedir()}/.rsat/keys/${args.keyName}`
+        const keyPairPath = `${os.homedir()}/.rsa/keys/${args.keyName}`
         const privateKeyPath = `${keyPairPath}/rsa`
 
         if (fs.existsSync(keyPairPath)) {

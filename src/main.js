@@ -40,6 +40,9 @@ const main = async () => {
         case 'decrypt':
             await require('./functions/decrypt')(args)
             break;
+        case 'get':
+            await require('./functions/get')(args)
+            break;
 
         default:
             if (args.command) {

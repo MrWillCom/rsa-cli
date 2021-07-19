@@ -1,8 +1,8 @@
 {
-  "name": "rsa-tool",
+  "name": "rsa-cli",
   "version": "0.1.0beta1",
   "bin": {
-    "rsat": "./src/main.js"
+    "rsa": "./src/main.js"
   },
   "private": true,
   "pkg": {
