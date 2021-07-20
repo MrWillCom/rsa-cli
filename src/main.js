@@ -31,6 +31,9 @@ const main = async () => {
         case 'help':
             console.log(helpMessage)
             break;
+        case 'version':
+            await require('./commands/version')(args)
+            break;
         case 'generate':
             await require('./commands/generate')(args)
             break;
