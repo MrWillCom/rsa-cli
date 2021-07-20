@@ -1,12 +1,14 @@
 const os = require('os');
 const fs = require('fs');
 const readFile = require('../modules/readFile')
+const _p = require('../functions/path')
 
 module.exports = (args) => {
     return new Promise(async (resolve, reject) => {
-        const keyPairPath = `${os.homedir()}/.rsa/keys/${args.keyName}`
-        const publicKeyPath = `${keyPairPath}/rsa.pub`
-        const privateKeyPath = `${keyPairPath}/rsa`
+        const keysPath = _p.key(args.keyName)
+        const keyPairPath = keysPath.pair
+        const publicKeyPath = keysPath.public
+        const privateKeyPath = keysPath.private
 
         if (fs.existsSync(keyPairPath)) {
             const publicKey = await readFile(publicKeyPath, 'utf8')

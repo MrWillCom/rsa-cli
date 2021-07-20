@@ -1,12 +1,13 @@
 const crypto = require('crypto');
-const os = require('os')
 const fs = require('fs')
 const writeFile = require('../modules/writeFile')
+const _p = require('../functions/path')
+const _c = require('../config/variables')
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
         crypto.generateKeyPair('rsa', {
-            modulusLength: args.params['modulus-length'],
+            modulusLength: args.params['modulus-length'] || _c.generate.modulusLength,
             publicKeyEncoding: {
                 type: 'pkcs1',
                 format: 'pem',
@@ -17,9 +18,10 @@ module.exports = (args) => {
             }
         }, async (err, publicKey, privateKey) => {
             if (err) reject(err)
-            const keyPairPath = `${os.homedir()}/.rsa/keys/${args.keyName}`
-            const publicKeyPath = `${keyPairPath}/rsa.pub`
-            const privateKeyPath = `${keyPairPath}/rsa`
+            const keysPath = _p.key(args.keyName)
+            const keyPairPath = keysPath.pair
+            const publicKeyPath = keysPath.public
+            const privateKeyPath = keysPath.private
             const saveKeyPair = async () => {
                 await writeFile(publicKeyPath, publicKey)
                 await writeFile(privateKeyPath, privateKey)
@@ -28,7 +30,7 @@ module.exports = (args) => {
             }
             if (fs.existsSync(keyPairPath)) {
                 if (args.params.overwrite == true) { saveKeyPair() } else {
-                    console.error(`Key pair '${args.keyName}' already exists.\nTo overwrite, add --overwrite.`)
+                    console.error(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`)
                     resolve()
                 }
             } else {
