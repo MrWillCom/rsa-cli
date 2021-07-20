@@ -16,7 +16,7 @@ module.exports = (args) => {
             console.log(crypto.publicEncrypt(publicKey, Buffer.from(args.object)).toString('base64'))
             resolve()
         } else {
-            console.log(`Key ${args.keyName} doesn't exists.`)
+            console.log(`Key '${args.keyName}' doesn't exist.`)
             resolve()
         }
     })

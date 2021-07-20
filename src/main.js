@@ -49,6 +49,9 @@ const main = async () => {
         case 'list':
             await require('./commands/list')(args)
             break;
+        case 'remove':
+            await require('./commands/remove')(args)
+            break;
 
         default:
             if (args.command) {

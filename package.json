@@ -27,6 +27,7 @@
     "build": "pkg . --no-bytecode --public-packages \"*\" --public"
   },
   "dependencies": {
+    "inquirer": "^8.1.2",
     "minimist": "^1.2.5",
     "pkg": "^5.3.0"
   }
