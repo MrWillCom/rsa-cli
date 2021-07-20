@@ -10,7 +10,8 @@ Commands:
     generate - generate a key pair
     encrypt - encrypt a message
     decrypt - decrypt an encrypted message
-    ls - list key pairs
+    get - show a key pair
+    list - list key pairs
     rm - remove a key pair
 
 rsa@${require('../../package.json').version} ${process.execPath}

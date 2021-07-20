@@ -23,7 +23,7 @@
     "outputPath": "dist"
   },
   "scripts": {
-    "start": "node ./src/main.",
+    "start": "node ./src/main.js",
     "build": "pkg . --no-bytecode --public-packages \"*\" --public"
   },
   "dependencies": {

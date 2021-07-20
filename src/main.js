@@ -32,16 +32,19 @@ const main = async () => {
             console.log(helpMessage)
             break;
         case 'generate':
-            await require('./functions/generate')(args)
+            await require('./commands/generate')(args)
             break;
         case 'encrypt':
-            await require('./functions/encrypt')(args)
+            await require('./commands/encrypt')(args)
             break;
         case 'decrypt':
-            await require('./functions/decrypt')(args)
+            await require('./commands/decrypt')(args)
             break;
         case 'get':
-            await require('./functions/get')(args)
+            await require('./commands/get')(args)
+            break;
+        case 'list':
+            await require('./commands/list')(args)
             break;
 
         default:

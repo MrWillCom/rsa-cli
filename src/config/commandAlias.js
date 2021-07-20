@@ -2,5 +2,6 @@ module.exports = {
     g: 'generate',
     e: 'encrypt',
     d: 'decrypt',
-    rm: 'remove'
+    ls: 'list',
+    rm: 'remove',
 }
