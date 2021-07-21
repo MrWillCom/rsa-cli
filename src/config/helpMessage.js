@@ -43,6 +43,8 @@ ${_dash} Generate a key pair named [keyName] with default modulus length (2048):
   ${_$} rsa generate [keyName]
 
 ${_dash} Customized modulus length [modulusLength]:
+  ${_$} rsa generate [keyName] --modulus-length [modulusLength]
+  ${chalk.grey(`or:`)}
   ${_$} rsa generate [keyName] -l [modulusLength]
 `
 
