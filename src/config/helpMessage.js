@@ -13,6 +13,7 @@ Commands:
     help     - show this help message
     version  - show version information
     generate - generate a key pair
+    import   - import a key (pair)
     encrypt  - encrypt a message
     decrypt  - decrypt an encrypted message
     get      - show a key pair
@@ -43,6 +44,15 @@ ${_dash} Generate a key pair named [keyName] with default modulus length (2048):
 
 ${_dash} Customized modulus length [modulusLength]:
   ${_$} rsa generate [keyName] -l [modulusLength]
+`
+
+// 'import' is not allowed as a variable declaration name.
+const _import =
+`
+Import a key (pair).
+
+${_dash} Import a key named [keyName] from [publicKeyPath] and [privateKeyPath]:
+  ${_$} rsa import [keyName] --public [publicKeyPath] --private [privateKeyPath]
 `
 
 const encrypt =
@@ -101,6 +111,7 @@ module.exports = {
     help: helpMessage,
     version,
     generate,
+    import: _import,
     encrypt,
     decrypt,
     get,

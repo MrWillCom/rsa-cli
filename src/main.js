@@ -36,6 +36,9 @@ const main = async () => {
         case 'generate':
             await require('./commands/generate')(args)
             break;
+        case 'import':
+            await require('./commands/import')(args)
+            break;
         case 'encrypt':
             await require('./commands/encrypt')(args)
             break;
