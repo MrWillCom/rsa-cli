@@ -1,7 +1,7 @@
 const crypto = require('crypto');
-const os = require('os')
 const fs = require('fs')
 const readFile = require('../modules/readFile')
+const writeFile = require('../modules/writeFile')
 const _p = require('../functions/path')
 
 module.exports = (args) => {
@@ -12,8 +12,23 @@ module.exports = (args) => {
 
         if (fs.existsSync(keyPairPath)) {
             const privateKey = await readFile(privateKeyPath)
-            console.log(`Decrypted '${args.object.slice(0, 12)}...${args.object.slice(args.object.length - 12, args.object.length)}' with key '${args.keyName}':`)
-            console.log(crypto.privateDecrypt(privateKey, Buffer.from(args.object, 'base64')).toString())
+            var toDecrypt;
+            if (args.params.input) {
+                toDecrypt = Buffer.from(await readFile(args.params.input, 'utf8'), 'base64')
+            } else {
+                toDecrypt = Buffer.from(args.object, 'base64')
+            }
+            const decrypted = await crypto.privateDecrypt(privateKey, toDecrypt).toString()
+            console.log(`Decrypted ${args.params.input ?
+                `file ${args.params.input}` :
+                `'${args.object.slice(0, 12)}...${args.object.slice(args.object.length - 12, args.object.length)}' with key '${args.keyName}`}`)
+            if (args.params.output) {
+                await writeFile(args.params.output, decrypted, 'utf8')
+                resolve()
+            } else {
+                console.log(decrypted)
+                resolve()
+            }
         } else {
             console.log(`Key ${args.keyName} doesn't exists.`)
             resolve()
