@@ -62,7 +62,7 @@ Encrypt a message.
 Alias: e
 
 ${_dash} Encrypt [message] with [keyName]:
-  ${_$} rsa e [keyName] [message]
+  ${_$} rsa encrypt [keyName] [message]
 `
 
 const decrypt =
@@ -72,7 +72,7 @@ Decrypt an encrypted message.
 Alias: d
 
 ${_dash} Decrypt [message] with [keyName]:
-  ${_$} rsa d [keyName] [message]
+  ${_$} rsa decrypt [keyName] [message]
 `
 
 const get =
