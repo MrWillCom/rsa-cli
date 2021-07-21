@@ -1,5 +1,4 @@
 const argv = require('minimist')(process.argv.slice(2));
-const helpMessage = require('./config/helpMessage')
 
 const getCommand = (command) => {
     const alias = require('./config/commandAlias')
@@ -29,7 +28,7 @@ var args = {
 const main = async () => {
     switch (args.command) {
         case 'help':
-            console.log(helpMessage)
+            require('./commands/help')(args)
             break;
         case 'version':
             await require('./commands/version')(args)
@@ -54,8 +53,9 @@ const main = async () => {
             break;
 
         default:
+            const helpMessage = require('./config/helpMessage').helpMessage
             if (args.command) {
-                console.log(`Invalid command ${args.command}.\n${helpMessage}`)
+                console.log(`Invalid command '${args.command}'.\n${helpMessage}`)
             } else {
                 console.log(`No command specified.\n${helpMessage}`)
             }
