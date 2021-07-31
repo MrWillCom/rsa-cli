@@ -76,3 +76,63 @@ $ rsa decrypt [keyName] [message]
 # or:
 $ rsa d [keyName] [message]
 ```
+
+### Get
+
+Show a key pair.
+
+Show key pair `[keyName]`:
+
+```sh
+$ rsa get [keyName]
+```
+
+To include private key, add `--private` as suffix:
+
+```sh
+$ rsa get [keyName] --private
+```
+
+### List
+
+List key pairs.
+
+```sh
+$ rsa list
+# or shorter:
+$ rsa ls
+```
+
+### Remove
+
+Remove a key pair.
+
+Remove key pair `[keyName]`:
+
+```sh
+$ rsa remove [keyName]
+# or:
+$ rsa rm [keyName]
+```
+
+### Help
+
+Show help message.
+
+```sh
+$ rsa help
+```
+
+Show detailed help message for `<command>`:
+
+```sh
+$ rsa help <command>
+```
+
+### Version
+
+Show version information.
+
+```sh
+$ rsa version
+```
