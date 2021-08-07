@@ -1,5 +1,5 @@
 module.exports = {
-    ver: 'version',
+    v: 'version',
     g: 'generate',
     e: 'encrypt',
     d: 'decrypt',
