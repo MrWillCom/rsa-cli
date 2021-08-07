@@ -25,34 +25,36 @@ var args = {
     params: getParams(argv),
 }
 
+const logError = (err) => { console.log(err.message) }
+
 const main = async () => {
     switch (args.command) {
         case 'help':
-            require('./commands/help')(args)
+            require('./commands/help')(args).catch(logError)
             break;
         case 'version':
-            await require('./commands/version')(args)
+            await require('./commands/version')(args).catch(logError)
             break;
         case 'generate':
-            await require('./commands/generate')(args)
+            await require('./commands/generate')(args).catch(logError)
             break;
         case 'import':
-            await require('./commands/import')(args)
+            await require('./commands/import')(args).catch(logError)
             break;
         case 'encrypt':
-            await require('./commands/encrypt')(args)
+            await require('./commands/encrypt')(args).catch(logError)
             break;
         case 'decrypt':
-            await require('./commands/decrypt')(args)
+            await require('./commands/decrypt')(args).catch(logError)
             break;
         case 'get':
-            await require('./commands/get')(args)
+            await require('./commands/get')(args).catch(logError)
             break;
         case 'list':
-            await require('./commands/list')(args)
+            await require('./commands/list')(args).catch(logError)
             break;
         case 'remove':
-            await require('./commands/remove')(args)
+            await require('./commands/remove')(args).catch(logError)
             break;
 
         default:

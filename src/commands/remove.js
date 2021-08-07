@@ -6,23 +6,32 @@ const removeDirectory = require('../modules/removeDirectory')
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
         if (fs.existsSync(`${_p.key(args.keyName).pair}`)) {
-            inquirer.prompt([{
-                type: 'confirm',
-                name: 'confirm',
-                message: `Are you sure to remove key '${args.keyName}'?`,
-            }]).then((answers) => {
-                if (answers.confirm === true) {
-                    removeDirectory(`${_p.key(args.keyName).pair}`).then(() => {
-                        console.log(`Removed key '${args.keyName}'.`)
+            const deleteKey = () => {
+                removeDirectory(`${_p.key(args.keyName).pair}`).then(() => {
+                    console.log(`Removed key '${args.keyName}'.`)
+                    resolve(args.keyName)
+                })
+            }
+
+            // `outputClear` is a flag to request less I/O interaction in terminal for API usage.
+            if (args.params.outputClear === true) { 
+                deleteKey()
+            } else {
+                inquirer.prompt([{
+                    type: 'confirm',
+                    name: 'confirm',
+                    message: `Are you sure to remove key '${args.keyName}'?`,
+                    default: false,
+                }]).then((answers) => {
+                    if (answers.confirm === true) {
+                        deleteKey()
+                    } else {
                         resolve()
-                    })
-                } else {
-                    resolve()
-                }
-            })
+                    }
+                })
+            }
         } else {
-            console.log(`Key '${args.keyName}' doesn't exist.`)
-            resolve()
+            reject(require('../functions/err')(`Key '${args.keyName}' doesn't exist.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
         }
     })
 }

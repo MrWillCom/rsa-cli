@@ -22,15 +22,13 @@ module.exports = (args) => {
             console.log(`Encrypted ${args.params.input ? `file ${args.params.input}` : `'${args.object}'`} with key '${args.keyName}':`)
             if (args.params.output) {
                 await writeFile(args.params.output, encrypted)
-                resolve()
+                resolve(encrypted)
             } else {
                 console.log(encrypted)
-                resolve()
+                resolve(encrypted)
             }
-            resolve()
         } else {
-            console.log(`Key '${args.keyName}' doesn't exist.`)
-            resolve()
+            reject(require('../functions/err')(`Key '${args.keyName}' doesn't exist.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
         }
     })
 }

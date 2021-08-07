@@ -18,13 +18,12 @@ module.exports = (args) => {
                 await copyFile(args.params.private, privateKeyPath)
                 console.log(`Imported private key of key pair '${args.keyName}'`)
             }
-            resolve()
+            resolve(args.keyName)
         }
 
         if (fs.existsSync(keyPairPath)) {
             if (args.params.overwrite == true) { saveKeys() } else {
-                console.error(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`)
-                resolve()
+                reject(require('../functions/err')(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`, { code: 'RSA_CLI:KEY_ALREADY_EXISTS' }))
             }
         } else {
             saveKeys()

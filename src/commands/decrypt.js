@@ -24,14 +24,13 @@ module.exports = (args) => {
                 `'${args.object.slice(0, 12)}...${args.object.slice(args.object.length - 12, args.object.length)}' with key '${args.keyName}'`}:`)
             if (args.params.output) {
                 await writeFile(args.params.output, decrypted, 'utf8')
-                resolve()
+                resolve(decrypted)
             } else {
                 console.log(decrypted)
-                resolve()
+                resolve(decrypted)
             }
         } else {
-            console.log(`Key ${args.keyName} doesn't exists.`)
-            resolve()
+            reject(require('../functions/err')(`Key '${args.keyName}' doesn't exist.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
         }
     })
 }

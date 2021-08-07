@@ -14,7 +14,7 @@ module.exports = (args) => {
             const publicKey = await readFile(publicKeyPath, 'utf8')
             console.log(`Public key of key pair '${args.keyName}':`)
             console.log(publicKey)
-            if (args.params['private']) {
+            if (args.params['private'] === true) {
                 const privateKey = await readFile(privateKeyPath, 'utf8')
                 console.log(`Private key of key pair '${args.keyName}':`)
                 console.log(privateKey)
@@ -22,11 +22,13 @@ module.exports = (args) => {
                 console.log(`IMPORTANT!`)
                 console.log(`NEVER GIVE YOUR PRIVATE KEY TO OTHERS. IF YOU FOUND YOUR PRIVATE KEY IS LEAKED, PLEASE GENERATE A NEW KEY PAIR!`)
                 console.log(`------------------------`)
+
+                resolve({ public: publicKey, private: privateKey })
+            } else {
+                resolve({ public: publicKey })
             }
-            resolve()
         } else {
-            console.log(`Key ${args.keyName} doesn't exists.`)
-            resolve()
+            reject(require('../functions/err')(`Key ${args.keyName} doesn't exists.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
         }
     })
 }

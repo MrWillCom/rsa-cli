@@ -6,14 +6,18 @@ const getCommand = (command) => {
 }
 
 module.exports = (args) => {
-    if (args.keyName) {
-        const command = getCommand(args.keyName)
-        if (messages[command]) {
-            console.log(messages[command])
+    return new Promise((resolve, reject) => {
+        if (args.keyName) {
+            const command = getCommand(args.keyName)
+            if (messages[command]) {
+                console.log(messages[command])
+                resolve(messages[command])
+            } else {
+                reject(require('../functions/err')(`Command '${args.keyName}' doesn't exist.`, { code: 'RSA_CLI:COMMAND_NOT_EXIST' }))
+            }
         } else {
-            console.log(`Command '${args.keyName}' doesn't exist.`)
+            console.log(messages.helpMessage)
+            resolve(messages.helpMessage)
         }
-    } else {
-        console.log(messages.helpMessage)
-    }
+    })
 }

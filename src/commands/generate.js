@@ -26,12 +26,11 @@ module.exports = (args) => {
                 await writeFile(publicKeyPath, publicKey)
                 await writeFile(privateKeyPath, privateKey)
                 console.log(`Generated a new key pair: '${args.keyName}'`)
-                resolve()
+                resolve(args.keyName)
             }
             if (fs.existsSync(keyPairPath)) {
                 if (args.params.overwrite == true) { saveKeyPair() } else {
-                    console.error(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`)
-                    resolve()
+                    reject(require('../functions/err')(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`, { code: 'RSA_CLI:KEY_ALREADY_EXISTS' }))
                 }
             } else {
                 saveKeyPair()

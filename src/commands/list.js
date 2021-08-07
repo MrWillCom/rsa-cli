@@ -7,7 +7,7 @@ module.exports = (args) => {
             if (err) {
                 if (err.code = 'ENOENT') {
                     console.log(`Keys library is empty.`)
-                    resolve()
+                    resolve({ message: `Keys library is empty.`, code: 'RSA_CLI:KEY_LIB_EMPTY' })
                 } else {
                     reject(err)
                 }
@@ -17,7 +17,7 @@ module.exports = (args) => {
                     console.log(`${items[i]}`)
                 }
             }
-            resolve()
+            resolve(items)
         })
     })
 }
