@@ -6,8 +6,7 @@ module.exports = (args) => {
         fs.readdir(`${_p.keysDir()}`, (err, items) => {
             if (err) {
                 if (err.code = 'ENOENT') {
-                    console.log(`Keys library is empty.`)
-                    resolve({ message: `Keys library is empty.`, code: 'RSA_CLI:KEY_LIB_EMPTY' })
+                    reject({ message: `Keys library is empty.`, code: 'RSA_CLI:KEY_LIB_EMPTY' })
                 } else {
                     reject(err)
                 }
