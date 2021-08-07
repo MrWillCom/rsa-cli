@@ -28,9 +28,14 @@ var args = {
 const logError = (err) => { console.log(err.message) }
 
 const main = async () => {
+    if (args.params.version) {
+        await require('./commands/version')(args).catch(logError)
+        return
+    }
+
     switch (args.command) {
         case 'help':
-            require('./commands/help')(args).catch(logError)
+            await require('./commands/help')(args).catch(logError)
             break;
         case 'version':
             await require('./commands/version')(args).catch(logError)
