@@ -3,6 +3,7 @@
   "description": "A command line tool for RSA encryption and decryption.",
   "version": "0.1.1-beta.0",
   "main": "./src/modules.js",
+  "license": "MIT",
   "keywords": [
     "rsa",
     "cryptography",
