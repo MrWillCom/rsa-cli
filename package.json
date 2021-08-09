@@ -13,7 +13,6 @@
   "bin": {
     "rsa": "./src/main.js"
   },
-  "private": true,
   "pkg": {
     "scripts": "src/**/*.js",
     "bin": "src",
