@@ -1,5 +1,6 @@
 {
   "name": "rsa-cli",
+  "description": "A command line tool for RSA encryption and decryption.",
   "version": "0.1.0-beta.1",
   "bin": {
     "rsa": "./src/main.js"
