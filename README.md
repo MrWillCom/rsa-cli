@@ -15,7 +15,17 @@ Hello, World!
 
 ## Installation
 
+### Use Executable
+
 Download the executable from [Releases](https://github.com/MrWillCom/rsa-cli/releases), you don't even install it. If you want, you can rename this to `rsa` and add it to `PATH`.
+
+### Use npm or Yarn
+
+```sh
+$ yarn global add rsa-cli
+# or
+$ npm install --global rsa-cli
+```
 
 ## Usage
 
