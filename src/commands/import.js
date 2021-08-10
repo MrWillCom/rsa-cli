@@ -12,11 +12,11 @@ module.exports = (args) => {
         const saveKeys = async () => {
             if (args.params.public) {
                 await copyFile(args.params.public, publicKeyPath)
-                console.log(`Imported public key of key pair '${args.keyName}'`)
+                if (!args.params.quiet) console.log(`Imported public key of key pair '${args.keyName}'`)
             }
             if (args.params.private) {
                 await copyFile(args.params.private, privateKeyPath)
-                console.log(`Imported private key of key pair '${args.keyName}'`)
+                if (!args.params.quiet) console.log(`Imported private key of key pair '${args.keyName}'`)
             }
             resolve(args.keyName)
         }

@@ -25,7 +25,7 @@ module.exports = (args) => {
             const saveKeyPair = async () => {
                 await writeFile(publicKeyPath, publicKey)
                 await writeFile(privateKeyPath, privateKey)
-                console.log(`Generated a new key pair: '${args.keyName}'`)
+                if (!args.params.quiet) console.log(`Generated a new key pair: '${args.keyName}'`)
                 resolve(args.keyName)
             }
             if (fs.existsSync(keyPairPath)) {

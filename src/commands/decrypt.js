@@ -19,14 +19,14 @@ module.exports = (args) => {
                 toDecrypt = Buffer.from(args.object, 'base64')
             }
             const decrypted = await crypto.privateDecrypt(privateKey, toDecrypt).toString()
-            console.log(`Decrypted ${args.params.input ?
+            if (!args.params.quiet) console.log(`Decrypted ${args.params.input ?
                 `file ${args.params.input}` :
                 `'${args.object.slice(0, 12)}...${args.object.slice(args.object.length - 12, args.object.length)}' with key '${args.keyName}'`}:`)
             if (args.params.output) {
                 await writeFile(args.params.output, decrypted, 'utf8')
                 resolve(decrypted)
             } else {
-                console.log(decrypted)
+                if (!args.params.quiet) console.log(decrypted)
                 resolve(decrypted)
             }
         } else {

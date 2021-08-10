@@ -8,13 +8,12 @@ module.exports = (args) => {
         if (fs.existsSync(`${_p.key(args.keyName).pair}`)) {
             const deleteKey = () => {
                 removeDirectory(`${_p.key(args.keyName).pair}`).then(() => {
-                    console.log(`Removed key '${args.keyName}'.`)
+                    if (!args.params.quiet) console.log(`Removed key '${args.keyName}'.`)
                     resolve(args.keyName)
                 })
             }
 
-            // `outputClear` is a flag to request less I/O interaction in terminal for API usage.
-            if (args.params.outputClear === true) { 
+            if (args.params.quiet) { 
                 deleteKey()
             } else {
                 inquirer.prompt([{

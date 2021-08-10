@@ -12,16 +12,16 @@ module.exports = (args) => {
 
         if (fs.existsSync(keyPairPath)) {
             const publicKey = await readFile(publicKeyPath, 'utf8')
-            console.log(`Public key of key pair '${args.keyName}':`)
-            console.log(publicKey)
+            if (!args.params.quiet) console.log(`Public key of key pair '${args.keyName}':`)
+            if (!args.params.quiet) console.log(publicKey)
             if (args.params['private'] === true) {
                 const privateKey = await readFile(privateKeyPath, 'utf8')
-                console.log(`Private key of key pair '${args.keyName}':`)
-                console.log(privateKey)
-                console.log(`------------------------`)
-                console.log(`IMPORTANT!`)
-                console.log(`NEVER GIVE YOUR PRIVATE KEY TO OTHERS. IF YOU FOUND YOUR PRIVATE KEY IS LEAKED, PLEASE GENERATE A NEW KEY PAIR!`)
-                console.log(`------------------------`)
+                if (!args.params.quiet) console.log(`Private key of key pair '${args.keyName}':`)
+                if (!args.params.quiet) console.log(privateKey)
+                if (!args.params.quiet) console.log(`------------------------`)
+                if (!args.params.quiet) console.log(`IMPORTANT!`)
+                if (!args.params.quiet) console.log(`NEVER GIVE YOUR PRIVATE KEY TO OTHERS. IF YOU FOUND YOUR PRIVATE KEY IS LEAKED, PLEASE GENERATE A NEW KEY PAIR!`)
+                if (!args.params.quiet) console.log(`------------------------`)
 
                 resolve({ public: publicKey, private: privateKey })
             } else {

@@ -13,7 +13,7 @@ module.exports = (args) => {
             }
             for (const i in items) {
                 if (fs.statSync(`${_p.keysDir()}/${items[i]}`).isDirectory()) {
-                    console.log(`${items[i]}`)
+                    if (!args.params.quiet) console.log(`${items[i]}`)
                 }
             }
             resolve(items)

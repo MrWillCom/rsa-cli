@@ -7,7 +7,11 @@ const getCommand = (command) => {
 
 const getParams = (args) => {
     const alias = require('./config/paramsAlias')
+    const list = require('./config/paramsList')
     var params = {}
+    for (const param of list) {
+        params[param] = false;
+    }
     for (const k in args) {
         if (k === '_') continue;
         const val = args[k];
@@ -25,7 +29,7 @@ var args = {
     params: getParams(argv),
 }
 
-const logError = (err) => { console.log(err.message) }
+const logError = (err) => { if (!args.params.quiet) console.log(err.message) }
 
 const main = async () => {
     if (args.params.version) {
@@ -65,9 +69,9 @@ const main = async () => {
         default:
             const helpMessage = require('./config/helpMessage').helpMessage
             if (args.command) {
-                console.log(`Invalid command '${args.command}'.\n${helpMessage}`)
+                if (!args.params.quiet) console.log(`Invalid command '${args.command}'.\n${helpMessage}`)
             } else {
-                console.log(`No command specified.\n${helpMessage}`)
+                if (!args.params.quiet) console.log(`No command specified.\n${helpMessage}`)
             }
             break;
     }
