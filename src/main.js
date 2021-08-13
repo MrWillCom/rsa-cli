@@ -25,9 +25,9 @@ const getParams = (args) => {
 }
 
 var args = {
-    command: getCommand(argv._[0]),
-    keyName: argv._[1],
-    object: argv._[2],
+    command: getCommand(process.argv[2]),
+    keyName: process.argv[3],
+    object: process.argv[4],
     params: getParams(argv),
 }
 
