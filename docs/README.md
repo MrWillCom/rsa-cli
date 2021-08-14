@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+- [Installation](../README.md#installation)
 - [Commands](commands/)
   - [Generate](commands/generate.md)
   - [Import](commands/import.md)
