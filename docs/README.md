@@ -1,5 +1,7 @@
 # Documentation
 
+## Table of Contents
+
 - [Commands](commands/)
   - [Generate](commands/generate.md)
   - [Import](commands/import.md)
