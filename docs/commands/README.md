@@ -2,9 +2,9 @@
 
 ## Table of Contents
 
-- [Generate](commands/generate.md)
-- [Import](commands/import.md)
-- [Encrypt](commands/encrypt.md)
-- [Decrypt](commands/decrypt.md)
-- [Get](commands/get.md)
-- [List](commands/list.md)
+- [Generate](generate.md)
+- [Import](import.md)
+- [Encrypt](encrypt.md)
+- [Decrypt](decrypt.md)
+- [Get](get.md)
+- [List](list.md)
