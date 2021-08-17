@@ -15,3 +15,15 @@ To customize modulus length, use `-l`:
 ```sh
 $ rsa generate [keyName] -l [modulusLength]
 ```
+
+## API
+
+```ts
+function RSA_CLI.generate({
+    keyName: string,
+    params: {
+        'modulus-length'?: number, /* [optional] default to 2048 */
+        quiet?: boolean,
+    }
+}): string
+```
