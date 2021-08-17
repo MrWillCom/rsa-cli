@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Installation](../README.md#installation)
+- [API](api.md)
 - [Commands](commands/)
   - [Generate](commands/generate.md)
   - [Import](commands/import.md)
