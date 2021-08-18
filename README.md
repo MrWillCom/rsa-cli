@@ -1,6 +1,8 @@
-# RSA CLI
+<p align="center"><img src="./icon.png" alt="The logo of RSA CLI" width="84" height="84"></p>
 
-A command line tool for RSA encryption and decryption.
+<h3 align="center">RSA CLI</h3>
+
+<p align="center">A command line tool for RSA encryption and decryption.</p>
 
 ```sh
 $ rsa generate myKey -l 1024
