@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "node ./src/main.js",
-    "build": "pkg . --no-bytecode --public-packages \"*\" --public"
+    "build": "pkg . --no-bytecode --public-packages \"*\" --public --compress GZip"
   },
   "dependencies": {
     "chalk": "^4.1.1",
