@@ -11,12 +11,18 @@ module.exports = (args) => {
                     reject(err)
                 }
             }
+            var keysList = {};
             for (const i in items) {
-                if (fs.statSync(`${_p.keysDir()}/${items[i]}`).isDirectory()) {
-                    if (!args.params.quiet) console.log(`${items[i]}`)
+                const keysPath = _p.key(items[i]);
+                if (fs.statSync(keysPath.pair).isDirectory()) {
+                    keysList[items[i]] = {
+                        public: fs.existsSync(keysPath.public),
+                        private: fs.existsSync(keysPath.private),
+                    };
                 }
             }
-            resolve(items)
+            if (!args.params.quiet) console.table(keysList)
+            resolve(keysList)
         })
     })
 }

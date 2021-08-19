@@ -5,4 +5,5 @@ module.exports = {
     d: 'decrypt',
     ls: 'list',
     rm: 'remove',
+    passwd: 'password',
 }

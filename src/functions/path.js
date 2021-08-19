@@ -1,15 +1,19 @@
 const os = require('os')
 
 const getPath = {
-    configDir: () => { return `${os.homedir()}/.rsa` },
+    dataDir: () => { return `${os.homedir()}/.rsa` },
 
-    keysDir: () => { return `${getPath.configDir()}/keys` },
+    keysDir: () => { return `${getPath.dataDir()}/keys` },
 
     key: (name) => { return {
-        pair: `${getPath.configDir()}/keys/${name}`,
-        public: `${getPath.configDir()}/keys/${name}/rsa.pub`,
-        private: `${getPath.configDir()}/keys/${name}/rsa`,
-    }}
+        pair: `${getPath.dataDir()}/keys/${name}`,
+        public: `${getPath.dataDir()}/keys/${name}/rsa.pub`,
+        private: `${getPath.dataDir()}/keys/${name}/rsa`,
+    }},
+
+    config: () => { return `${getPath.dataDir()}/config.json` },
+
+    passwordValidationDemo: () => { return `${getPath.dataDir()}/password-validation-demo` },
 }
 
 module.exports = getPath

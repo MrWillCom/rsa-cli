@@ -67,6 +67,9 @@ const main = async () => {
         case 'remove':
             await require('./commands/remove')(args).catch(logError)
             break;
+        case 'password':
+            await require('./commands/password')(args).catch(logError)
+            break;
 
         default:
             const helpMessage = require('./config/helpMessage').helpMessage

@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 
 const _dash = chalk.gray('-');
-const _$ = chalk.bold.cyan(`$`)
+const _$ = chalk.bold.cyan(`$`);
 
 const helpMessage = 
 `
@@ -10,17 +10,24 @@ RSA CLI is a command line tool for RSA encryption and decryption.
 Usage: rsa <command> ...args
 
 Commands:
-    help     - show this help message
-    version  - show version information
-    generate - generate a key pair
-    import   - import a key (pair)
-    encrypt  - encrypt a message
-    decrypt  - decrypt an encrypted message
-    get      - show a key pair
-    list     - list key pairs
-    remove   - remove a key pair
+  Utilities:
+    help     ${_dash} show this help message
+    version  ${_dash} show version information
 
-rsa help <command> for more information on a command.
+  En/Decrypting:
+    generate ${_dash} generate a key pair
+    import   ${_dash} import a key (pair)
+    encrypt  ${_dash} encrypt a message
+    decrypt  ${_dash} decrypt an encrypted message
+    get      ${_dash} show a key pair
+    list     ${_dash} list key pairs
+    remove   ${_dash} remove a key pair
+
+  Security:
+    password ${_dash} [DON'T USE!] configure password to protect private keys
+
+for more information on a command:
+${_$} rsa help <command>
 
 rsa@${require('../../package.json').version} ${process.execPath}
 `
@@ -108,6 +115,30 @@ ${_dash} Remove key pair [keyName]:
   ${_$} rsa remove [keyName]
 `
 
+const password = 
+`
+${chalk.bold.bgYellow.whiteBright(`┌─────────────────────┐`)}
+${chalk.bold.bgYellow.whiteBright(`│ WORKING IN PROGRESS │`)}
+${chalk.bold.bgRed.whiteBright(   `│      DON'T USE!     │`)}
+${chalk.bold.bgRed.whiteBright(   `└─────────────────────┘`)}
+
+Enable/Change/Disable password to protect private keys.
+
+Alias: passwd
+
+${_dash} Check status:
+  ${_$} rsa password status
+
+${_dash} Enable password:
+  ${_$} rsa password enable
+
+${_dash} Disable password:
+  ${_$} rsa password disable
+
+${_dash} Change password:
+  ${_$} rsa password change
+`
+
 module.exports = {
     helpMessage,
     help: helpMessage,
@@ -119,4 +150,5 @@ module.exports = {
     get,
     list,
     remove,
+    password,
 }

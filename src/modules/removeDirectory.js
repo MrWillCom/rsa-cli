@@ -1,26 +1,15 @@
 const fs = require('fs');
+const scanDirectory = require('./scanDirectory');
 
 const removeDirectory = (path) => {
     return new Promise((resolve, reject) => {
-        fs.rmdir(path, (err) => {
-            if (err) {
-                if (err.code == 'ENOTEMPTY') {
-                    fs.readdirSync(path).forEach(async (item) => {
-                        const itemPath = path + '/' + item;
-                        if (fs.statSync(itemPath).isDirectory()) {
-                            await removeDirectory(itemPath)
-                        } else {
-                            fs.unlinkSync(itemPath);
-                        }
-                    })
-                    removeDirectory(path).then(() => {
-                        resolve()
-                    })
-                }
-            } else {
-                resolve();
+        scanDirectory(path, { includeDirectories: true }).then((list) => {
+            for (const item of list) {
+                fs.statSync(item).isDirectory() ? fs.rmdirSync(item) : fs.unlinkSync(item);
             }
-        });
+            fs.rmdirSync(path)
+            resolve()
+        })
     })
 }
 
