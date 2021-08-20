@@ -3,6 +3,9 @@ const fs = require('fs')
 const writeFile = require('../modules/writeFile')
 const _p = require('../functions/path')
 const _c = require('../config/variables')
+const config = require('../functions/config')
+const sjcl = require('sjcl')
+const inquirer = require('inquirer')
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
@@ -24,8 +27,32 @@ module.exports = (args) => {
             const privateKeyPath = keysPath.private
             const saveKeyPair = async () => {
                 await writeFile(publicKeyPath, publicKey)
-                await writeFile(privateKeyPath, privateKey)
-                if (!args.params.quiet) console.log(`Generated a new key pair: '${args.keyName}'`)
+
+                const savePrivateKey = async (password) => {
+                    if (password !== null) {
+                        privateKey = sjcl.encrypt(password, privateKey)
+                    }
+                    await writeFile(privateKeyPath, privateKey)
+
+                    if (!args.params.quiet) console.log(`Generated a new key pair: '${args.keyName}'`)
+                }
+
+                const currentConfig = await config.get()
+                if (currentConfig['password']['enabled'] == true) {
+                    if (typeof args.params.password != 'undefined') {
+                        await savePrivateKey(args.params.password.toString())
+                    } else {
+                        inquirer.prompt([{
+                            type: 'password',
+                            name: 'password',
+                            message: 'Password:'
+                        }]).then(async ({ password }) => {
+                            await savePrivateKey(password)
+                        })
+                    }
+                } else {
+                    await savePrivateKey(null)
+                }
                 resolve(args.keyName)
             }
             if (fs.existsSync(keyPairPath)) {

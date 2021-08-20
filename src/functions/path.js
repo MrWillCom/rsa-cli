@@ -6,7 +6,7 @@ const getPath = {
     keysDir: () => { return `${getPath.dataDir()}/keys` },
 
     key: (name) => { return {
-        pair: `${getPath.dataDir()}/keys/${name}`,
+        pair: `${getPath.dataDir()}/keys/${name}/`,
         public: `${getPath.dataDir()}/keys/${name}/rsa.pub`,
         private: `${getPath.dataDir()}/keys/${name}/rsa`,
     }},
