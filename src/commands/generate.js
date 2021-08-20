@@ -5,7 +5,9 @@ const _p = require('../functions/path')
 const _c = require('../config/variables')
 const config = require('../functions/config')
 const sjcl = require('sjcl')
-const inquirer = require('inquirer')
+const inquirer = require('inquirer');
+const readFile = require('../modules/readFile');
+const passwordValidationDemoData = require('../config/passwordValidationDemoData')
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
@@ -26,34 +28,56 @@ module.exports = (args) => {
             const publicKeyPath = keysPath.public
             const privateKeyPath = keysPath.private
             const saveKeyPair = async () => {
-                await writeFile(publicKeyPath, publicKey)
 
-                const savePrivateKey = async (password) => {
+                const saveKeys = async (password) => {
+                    await writeFile(publicKeyPath, publicKey)
+
                     if (password !== null) {
                         privateKey = sjcl.encrypt(password, privateKey)
                     }
                     await writeFile(privateKeyPath, privateKey)
 
                     if (!args.params.quiet) console.log(`Generated a new key pair: '${args.keyName}'`)
+
+                    resolve(args.keyName)
                 }
 
                 const currentConfig = await config.get()
                 if (currentConfig['password']['enabled'] == true) {
                     if (typeof args.params.password != 'undefined') {
-                        await savePrivateKey(args.params.password.toString())
+                        try {
+                            if (sjcl.decrypt(args.params.password.toString(), await readFile(_p.passwordValidationDemo(), 'utf8')) === passwordValidationDemoData) {
+                                await saveKeys(args.params.password.toString())
+                            }
+                        } catch (err) {
+                            if (err.message == `ccm: tag doesn't match`) {
+                                reject(require('../functions/err')('Password is incorrect.', { code: 'RSA_CLI:PASSWORD_INCORRECT' }))
+                            } else {
+                                reject(err)
+                            }
+                        }
                     } else {
                         inquirer.prompt([{
                             type: 'password',
                             name: 'password',
                             message: 'Password:'
                         }]).then(async ({ password }) => {
-                            await savePrivateKey(password)
+                            try {
+                                if (sjcl.decrypt(password, await readFile(_p.passwordValidationDemo(), 'utf8')) === passwordValidationDemoData) {
+                                    await saveKeys(password)
+                                }
+                            } catch (err) {
+                                if (err.message == `ccm: tag doesn't match`) {
+                                    reject(require('../functions/err')('Password is incorrect.', { code: 'RSA_CLI:PASSWORD_INCORRECT' }))
+                                } else {
+                                    reject(err)
+                                }
+                            }
                         })
                     }
                 } else {
-                    await savePrivateKey(null)
+                    await saveKeys(null)
                 }
-                resolve(args.keyName)
             }
             if (fs.existsSync(keyPairPath)) {
                 if (args.params.overwrite == true) { saveKeyPair() } else {

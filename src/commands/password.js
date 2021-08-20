@@ -125,6 +125,8 @@ const controller = {
             } catch (err) {
                 if (err.message == `ccm: tag doesn't match`) {
                     reject(require('../functions/err')('Password is incorrect.', { code: 'RSA_CLI:PASSWORD_INCORRECT' }))
+                } else {
+                    reject(err)
                 }
             }
         })
