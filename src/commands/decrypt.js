@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const readFile = require('../modules/readFile')
 const writeFile = require('../modules/writeFile')
-const _p = require('../functions/path')
 const getKey = require('../functions/getKey')
 const requestPassword = require('../functions/requestPassword');
 
@@ -28,7 +27,7 @@ module.exports = (args) => {
                     if (!args.params.quiet) console.log(decrypted)
                     resolve(decrypted)
                 }
-            })
+            }).catch(reject)
         }).catch(reject)
     })
 }
