@@ -10,23 +10,24 @@ const printWarningAboutPrivateKey = (args) => {
 }
 
 module.exports = (args) => {
-    return new Promise(async (resolve, reject) => {
-        const publicKey = await getKey(args.keyName, 'public')
-        if (!args.params.quiet) console.log(`Public key of key pair '${args.keyName}':`)
-        if (!args.params.quiet) console.log(publicKey)
+    return new Promise((resolve, reject) => {
+        getKey(args.keyName, 'public').then((publicKey) => {
+            output(`Public key of key pair '${args.keyName}':`)
+            output(publicKey)
 
-        if (args.params['private'] === true) {
-            requestPassword(args).then(async (password) => {
-                const privateKey = await getKey(args.keyName, 'private', password)
+            if (args.params['private'] === true) {
+                requestPassword(args).then((password) => {
+                    getKey(args.keyName, 'private', password).then((privateKey) => {
+                        output(args, `Private key of key pair '${args.keyName}':`)
+                        output(args, privateKey)
+                        printWarningAboutPrivateKey(args)
 
-                output(args, `Private key of key pair '${args.keyName}':`)
-                output(args, privateKey)
-                printWarningAboutPrivateKey(args)
-
-                resolve({ public: publicKey, private: privateKey })
-            }).catch(reject)
-        } else {
-            resolve({ public: publicKey })
-        }
+                        resolve({ public: publicKey, private: privateKey })
+                    }).catch(reject)
+                }).catch(reject)
+            } else {
+                resolve({ public: publicKey })
+            }
+        }).catch(reject)
     })
 }
