@@ -1,7 +1,7 @@
 {
   "name": "rsa-cli",
   "description": "A command line tool for RSA encryption and decryption.",
-  "version": "0.1.2-beta.0",
+  "version": "0.1.2-beta.1",
   "main": "./src/modules.js",
   "license": "MIT",
   "keywords": [
