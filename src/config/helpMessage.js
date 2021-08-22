@@ -24,7 +24,7 @@ Commands:
     remove   ${_dash} remove a key pair
 
   Security:
-    password ${_dash} [DON'T USE!] configure password to protect private keys
+    password ${_dash} configure password to protect private keys
 
 for more information on a command:
 ${_$} rsa help <command>
@@ -117,12 +117,7 @@ ${_dash} Remove key pair [keyName]:
 
 const password = 
 `
-${chalk.bold.bgYellow.whiteBright(`┌─────────────────────┐`)}
-${chalk.bold.bgYellow.whiteBright(`│ WORKING IN PROGRESS │`)}
-${chalk.bold.bgRed.whiteBright(   `│      DON'T USE!     │`)}
-${chalk.bold.bgRed.whiteBright(   `└─────────────────────┘`)}
-
-Enable/Change/Disable password to protect private keys.
+Configure password to protect private keys.
 
 Alias: passwd
 
@@ -137,6 +132,13 @@ ${_dash} Disable password:
 
 ${_dash} Change password:
   ${_$} rsa password change
+
+${chalk.grey(`────────────────────────────────────`)}
+
+For the commands which require a password, you can either enter the password when asking you to do so, or you can add a flag after your command:
+  ${_$} rsa <command> --password [password]
+  ${chalk.grey(`# or`)}
+  ${_$} rsa <command> -p [password]
 `
 
 module.exports = {

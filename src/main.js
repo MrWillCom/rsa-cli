@@ -80,6 +80,7 @@ const main = async () => {
             }
             break;
     }
+    if (!args.params.quiet) console.log(``) // append a new line
 }
 
 main()

@@ -208,7 +208,7 @@ module.exports = (args) => {
                 break;
 
             default:
-                reject(require('../functions/err')(typeof args.keyName != 'undefined' ? `Unknown sub-command '${args.keyName}'` : 'No sub-command provided', { code: 'RSA_CLI:UNKNOWN_SUB_COMMAND' }))
+                reject(require('../functions/err')(`${typeof args.keyName != 'undefined' ? `Unknown sub-command '${args.keyName}'` : 'No sub-command provided'}\n\nGet more instructions by running:\n${require('chalk').bold.cyan(`$`)} rsa help password`, { code: 'RSA_CLI:UNKNOWN_SUB_COMMAND' }))
                 break;
         }
     })
