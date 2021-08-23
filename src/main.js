@@ -31,7 +31,15 @@ var args = {
     params: getParams(argv),
 }
 
-const logError = (err) => { if (!args.params.quiet) console.log(err.message) }
+const logError = (err) => {
+    if (!args.params.quiet) {
+        if (args.params['debug']) {
+            console.error(err)
+        } else {
+            console.log(err.message)
+        }
+    }
+}
 
 const main = async () => {
     if (args.params.version) {
