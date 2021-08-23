@@ -12,7 +12,13 @@ module.exports = (args) => {
                 if (args.params.input) {
                     toDecrypt = Buffer.from(await readFile(args.params.input, 'utf8'), 'base64')
                 } else {
-                    toDecrypt = Buffer.from(args.object, 'base64')
+                    try {
+                        toDecrypt = Buffer.from(args.object, 'base64')
+                    } catch (err) {
+                        if (err.code == 'ERR_INVALID_ARG_TYPE') {
+                            reject(require('../functions/err')('Invalid input.', { code: 'RSA_CLI:INVALID_ENCRYPTION_INPUT' }))
+                        }
+                    }
                 }
 
                 const decrypted = await crypto.privateDecrypt(key, toDecrypt).toString()
@@ -27,7 +33,13 @@ module.exports = (args) => {
                     if (!args.params.quiet) console.log(decrypted)
                     resolve(decrypted)
                 }
-            }).catch(reject)
+            }).catch((err) => {
+                if (err.code == 'ERR_OSSL_RSA_OAEP_DECODING_ERROR') {
+                    reject(require('../functions/err')('Failed to decrypt.', { code: 'RSA_CLI:FAILED_TO_DECRYPT' }))
+                } else {
+                    reject(err)
+                }
+            })
         }).catch(reject)
     })
 }
