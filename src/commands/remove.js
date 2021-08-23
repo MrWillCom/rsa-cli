@@ -6,7 +6,7 @@ const removeDirectory = require('../modules/removeDirectory')
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
         if (typeof args.keyName == 'undefined') {
-            reject(require('../functions/err')('No key name provided.', { code: 'RSA_CLI:CANNOT_GENERATE_KEY_WITHOUT_KEY_NAME' }))
+            reject(require('../functions/err')('No key name provided.', { code: 'RSA_CLI:CANNOT_REMOVE_KEY_WITHOUT_KEY_NAME' }))
         } else {
             if (fs.existsSync(`${_p.key(args.keyName).pair}`)) {
                 const deleteKey = () => {
