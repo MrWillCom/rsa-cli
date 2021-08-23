@@ -8,7 +8,7 @@ const requestPassword = require('../functions/requestPassword');
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
-        if(typeof args.keyName == 'undefined'){
+        if (typeof args.keyName == 'undefined') {
             reject(require('../functions/err')('No key name provided.', { code: 'RSA_CLI:CANNOT_GENERATE_KEY_WITHOUT_KEY_NAME' }))
         }
 
