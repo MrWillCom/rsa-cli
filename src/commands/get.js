@@ -12,8 +12,8 @@ const printWarningAboutPrivateKey = (args) => {
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
         getKey(args.keyName, 'public').then((publicKey) => {
-            output(`Public key of key pair '${args.keyName}':`)
-            output(publicKey)
+            output(args, `Public key of key pair '${args.keyName}':`)
+            output(args, publicKey)
 
             if (args.params['private'] === true) {
                 requestPassword(args).then((password) => {
