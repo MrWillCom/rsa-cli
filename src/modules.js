@@ -8,4 +8,5 @@ module.exports = {
     get: require('./commands/get'),
     list: require('./commands/list'),
     remove: require('./commands/remove'),
+    password: require('./commands/password'),
 }
