@@ -13,6 +13,7 @@ Commands:
   Utilities:
     help     ${_dash} show this help message
     version  ${_dash} show version information
+    config   ${_dash} configure RSA CLI
 
   En/Decrypting:
     generate ${_dash} generate a key pair
@@ -38,6 +39,22 @@ Show version information.
 
 ${_dash} Show version number:
   ${_$} rsa version
+`
+
+const config  = 
+`
+Configure RSA CLI.
+
+${_dash} Get config [key]:
+  ${_$} rsa config get [key]
+
+${_dash} Set config [key] to [value]:
+  ${_$} rsa config set [key] [value]
+
+${_dash} Delete config [key]:
+  ${_$} rsa config set [key]
+  ${chalk.grey(`or:`)}
+  ${_$} rsa config set [key] unset
 `
 
 const generate =
@@ -145,6 +162,7 @@ module.exports = {
     helpMessage,
     help: helpMessage,
     version,
+    config,
     generate,
     import: _import,
     encrypt,

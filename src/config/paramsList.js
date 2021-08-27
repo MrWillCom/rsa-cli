@@ -7,5 +7,4 @@ module.exports = [
     'public',
     'private',
     'quiet',
-    'no-confirm',
 ]

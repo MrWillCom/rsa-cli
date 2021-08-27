@@ -29,6 +29,7 @@ var args = {
     keyName: process.argv[3],
     object: process.argv[4],
     params: getParams(argv),
+    argv: process.argv,
 }
 
 const logError = (err) => {
@@ -53,6 +54,9 @@ const main = async () => {
             break;
         case 'version':
             await require('./commands/version')(args).catch(logError)
+            break;
+        case 'config':
+            await require('./commands/config')(args).catch(logError)
             break;
         case 'generate':
             await require('./commands/generate')(args).catch(logError)
