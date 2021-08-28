@@ -153,7 +153,7 @@ ${chalk.grey(`──────────────────────
 
 For the commands which require a password, you can either enter the password when asking you to do so, or you can add a flag after your command:
   ${_$} rsa <command> --password [password]
-  ${chalk.grey(`# or`)}
+  ${chalk.grey(`or:`)}
   ${_$} rsa <command> -p [password]
 `
 
@@ -173,8 +173,8 @@ module.exports = {
   'public-key-of-key-pair':                                       `Public key of key pair '%a':`,
   'private-key-of-key-pair':                                      `Private key of key pair '%a':`,
   'warning-about-private-key':                                    `IMPORTANT!\nNEVER GIVE YOUR PRIVATE KEY TO OTHERS. IF YOU FOUND YOUR PRIVATE KEY IS LEAKED, PLEASE GENERATE A NEW KEY PAIR!`,
-  'imported-public-key-of-key-pair':                              `Imported public key of key pair '%a'`,
-  'imported-private-key-of-key-pair':                             `Imported private key of key pair '%a'`,
+  'imported-public-key-of-key-pair':                              `Imported public key of key pair '%a'.`,
+  'imported-private-key-of-key-pair':                             `Imported private key of key pair '%a'.`,
   'key-library-is-empty':                                         `Key library is empty.`,
   'are-you-sure-to-remove-key':                                   `Are you sure to remove key '%a'?`,
   'removed-key':                                                  `Removed key '%a'.`,
