@@ -5,11 +5,12 @@ const _p = require('../functions/path')
 const _c = require('../config/variables')
 const sjcl = require('sjcl')
 const requestPassword = require('../functions/requestPassword');
+const getString = require('../functions/getString')
 
 module.exports = (args) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         if (typeof args.keyName == 'undefined') {
-            reject(require('../functions/err')('No key name provided.', { code: 'RSA_CLI:CANNOT_GENERATE_KEY_WITHOUT_KEY_NAME' }))
+            reject(require('../functions/err')(await getString('no-key-name-provided'), { code: 'RSA_CLI:CANNOT_GENERATE_KEY_WITHOUT_KEY_NAME' }))
         }
 
         crypto.generateKeyPair('rsa', {
@@ -36,7 +37,7 @@ module.exports = (args) => {
                     }
                     await writeFile(keysPath.private, privateKey)
 
-                    if (!args.params.quiet) console.log(`Generated a new key pair: '${args.keyName}'`)
+                    if (!args.params.quiet) console.log(await getString('generated-a-new-key-pair', { a: args.keyName }))
 
                     resolve(args.keyName)
                 }
@@ -47,7 +48,7 @@ module.exports = (args) => {
             }
             if (fs.existsSync(keyPairPath)) {
                 if (args.params.overwrite == true) { saveKeyPair() } else {
-                    reject(require('../functions/err')(`Key pair '${args.keyName}' already exists.\nTo overwrite, add '--overwrite'.`, { code: 'RSA_CLI:KEY_ALREADY_EXISTS' }))
+                    reject(require('../functions/err')(await getString('key-pair-already-exists-to-overwrite-add-overwrite', { a: args.keyName }), { code: 'RSA_CLI:KEY_ALREADY_EXISTS' }))
                 }
             } else {
                 saveKeyPair()

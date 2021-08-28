@@ -3,10 +3,10 @@ const _p = require('../functions/path')
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
-        fs.readdir(`${_p.keysDir()}`, (err, items) => {
+        fs.readdir(`${_p.keysDir()}`, async (err, items) => {
             if (err) {
                 if (err.code = 'ENOENT') {
-                    reject({ message: `Keys library is empty.`, code: 'RSA_CLI:KEY_LIB_EMPTY' })
+                    reject(require('../functions/err')(await getString('key-library-is-empty'), { code: 'RSA_CLI:KEY_LIB_EMPTY' }))
                 } else {
                     reject(err)
                 }

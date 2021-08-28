@@ -5,6 +5,7 @@ const sjcl = require('sjcl');
 const _p = require('../functions/path');
 const config = require('../functions/config');
 const output = require('../functions/output');
+const getString = require('../functions/getString');
 
 const requestPassword = require('../functions/requestPassword');
 const passwordValidationDemoData = require('../config/passwordValidationDemoData');
@@ -20,34 +21,32 @@ module.exports = (args) => {
         const currentConfig = await config.get();
 
         const controller = {
-            enable: () => {
+            enable: async () => {
                 inquirer.prompt([
                     {
                         type: 'password',
                         name: 'password',
-                        message: 'New password:',
-                        validate: (value) => {
+                        message: await getString('new-password'),
+                        validate: async (value) => {
                             if (value === '') {
-                                return `Password can't be empty.`;
+                                return await getString('password-cant-be-empty');
                             } else { return true }
                         }
                     },
                     {
                         type: 'password',
                         name: 'confirm-password',
-                        message: 'Confirm password:',
+                        message: await getString('confirm-password'),
                     },
                 ]).then(async (answers) => {
                     if (answers.password === answers['confirm-password']) {
                         output(args, '------------------------')
-                        output(args, 'IMPORTANT!')
-                        output(args, 'Remember your password!')
-                        output(args, 'Because if you forgot it, NO ONE CAN RECOVER YOUR PRIVATE KEYS!')
+                        output(args, await getString('warning-about-enabling-password'))
                         output(args, '------------------------')
                         const confirmationAnswer = await inquirer.prompt([{
                             type: 'confirm',
                             name: 'confirm',
-                            message: 'Are you sure you want to enable password?',
+                            message: await getString('are-you-sure-you-want-to-enable-password'),
                             default: false,
                         }])
 
@@ -66,34 +65,34 @@ module.exports = (args) => {
                             currentConfig['password']['enabled'] = true
                             config.set(currentConfig)
 
-                            output(args, 'Password enabled.')
+                            output(args, await getString('password-enabled'))
 
                             resolve()
                         } else {
-                            reject(require('../functions/err')(`Canceled.`, { code: 'RSA_CLI:CANCELED_ENABLING_PASSWORD' }))
+                            reject(require('../functions/err')(await getString('canceled'), { code: 'RSA_CLI:CANCELED_ENABLING_PASSWORD' }))
                         }
 
                     } else {
-                        reject(require('../functions/err')(`Password doesn't match.`, { code: 'RSA_CLI:PASSWORD_DOES_NOT_MATCH' }))
+                        reject(require('../functions/err')(await getString('password-doesnt-match'), { code: 'RSA_CLI:PASSWORD_DOES_NOT_MATCH' }))
                     }
                 })
             },
-            change: () => {
-                requestPassword(args, { message: 'Old password:' }).then(async (oldPassword) => {
+            change: async () => {
+                requestPassword(args, { message: await getString('old-password') }).then(async (oldPassword) => {
                     inquirer.prompt([{
                         type: 'password',
                         name: 'password',
-                        message: 'New password:',
-                        validate: (value) => {
+                        message: await getString('new-password'),
+                        validate: async (value) => {
                             if (value === '') {
-                                return `Password can't be empty.`;
+                                return await getString('password-cant-be-empty');
                             } else { return true }
                         },
-                    }]).then(({ password: newPassword }) => {
+                    }]).then(async ({ password: newPassword }) => {
                         inquirer.prompt([{
                             type: 'confirm',
                             name: 'confirm',
-                            message: 'Are you sure you want to change password?',
+                            message: await getString('are-you-sure-to-change-password'),
                             default: false,
                         }]).then(async ({ confirm }) => {
                             if (confirm == true) {
@@ -110,11 +109,11 @@ module.exports = (args) => {
                                     }
                                 }
 
-                                output(args, 'Password changed.')
+                                output(args, await getString('password-changed'))
 
                                 resolve()
                             } else {
-                                reject(require('../functions/err')(`Canceled.`, { code: 'RSA_CLI:CANCELED_ENABLING_PASSWORD' }))
+                                reject(require('../functions/err')(await getString('canceled'), { code: 'RSA_CLI:CANCELED_CHANGING_PASSWORD' }))
                             }
                         })
                     })
@@ -135,7 +134,7 @@ module.exports = (args) => {
                     currentConfig['password']['enabled'] = false
                     config.set(currentConfig)
 
-                    output(args, 'Password disabled.')
+                    output(args, await getString('password-disabled'))
 
                     resolve()
                 }).catch(reject)
@@ -145,19 +144,19 @@ module.exports = (args) => {
         switch (args.keyName) {
             case 'status':
                 if (currentConfig['password']['enabled'] === true) {
-                    output(args, 'Enabled.')
+                    output(args, await getString('enabled'))
                     resolve(true);
                 } else {
-                    output(args, 'Disabled.')
+                    output(args, await getString('disabled'))
                     resolve(false);
                 }
                 break;
 
             case 'enable':
                 if (currentConfig['password']['enabled'] === true) {
-                    reject(require('../functions/err')(`Password already enabled, do you mean changing your password?`, { code: 'RSA_CLI:PASSWORD_ENABLED_CANNOT_ENABLE' }))
+                    reject(require('../functions/err')(await getString('password-already-enabled-do-you-mean-changing-your-password'), { code: 'RSA_CLI:PASSWORD_ENABLED_CANNOT_ENABLE' }))
                 } else {
-                    controller.enable();
+                    await controller.enable();
                 }
                 break;
 
@@ -165,20 +164,20 @@ module.exports = (args) => {
                 if (currentConfig['password']['enabled'] === true) {
                     controller.disable();
                 } else {
-                    reject(require('../functions/err')(`Password not enabled, cannot disable.`, { code: 'RSA_CLI:PASSWORD_NOT_ENABLED_CANNOT_DISABLE' }))
+                    reject(require('../functions/err')(await getString('password-not-enabled-cannot-disable'), { code: 'RSA_CLI:PASSWORD_NOT_ENABLED_CANNOT_DISABLE' }))
                 }
                 break;
 
             case 'change':
                 if (currentConfig['password']['enabled'] === true) {
-                    controller.change();
+                    await controller.change();
                 } else {
-                    reject(require('../functions/err')(`Password not enabled, cannot change.`, { code: 'RSA_CLI:PASSWORD_NOT_ENABLED_CANNOT_CHANGE' }))
+                    reject(require('../functions/err')(await getString('password-not-enabled-cannot-change'), { code: 'RSA_CLI:PASSWORD_NOT_ENABLED_CANNOT_CHANGE' }))
                 }
                 break;
 
             default:
-                reject(require('../functions/err')(`${typeof args.keyName != 'undefined' ? `Unknown sub-command '${args.keyName}'` : 'No sub-command provided'}\n\nGet more instructions by running:\n${require('chalk').bold.cyan(`$`)} rsa help password`, { code: 'RSA_CLI:UNKNOWN_SUB_COMMAND' }))
+                reject(require('../functions/err')(`${typeof args.keyName != 'undefined' ? await getString('unknown-sub-command', { a: args.keyName }) : await getString('no-sub-command-provided')}\n\n${await getString('get-more-instructions-by-running')}\n${require('chalk').bold.cyan(`$`)} rsa help password`, { code: 'RSA_CLI:UNKNOWN_SUB_COMMAND' }))
                 break;
         }
     })

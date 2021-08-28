@@ -4,6 +4,7 @@ const readFile = require('../modules/readFile')
 const config = require('./config.js')
 const demoData = require('../config/passwordValidationDemoData')
 const _p = require('../functions/path')
+const getString = require('./getString')
 
 module.exports = (args, options) => {
     return new Promise(async (resolve, reject) => {
@@ -14,7 +15,7 @@ module.exports = (args, options) => {
                 }
             } catch (err) {
                 if (err.message == `ccm: tag doesn't match`) {
-                    reject(require('../functions/err')('Password is incorrect.', { code: 'RSA_CLI:PASSWORD_INCORRECT' }))
+                    reject(require('../functions/err')(await getString('password-is-incorrect'), { code: 'RSA_CLI:PASSWORD_INCORRECT' }))
                 } else {
                     reject(err)
                 }
@@ -26,7 +27,7 @@ module.exports = (args, options) => {
             if (typeof args.params.password != 'undefined') {
                 verifyPassword(args.params.password.toString())
             } else {
-                var message = 'Password:'
+                var message = await getString('password')
                 if (typeof options != 'undefined') {
                     message = options.message ? options.message : message
                 }

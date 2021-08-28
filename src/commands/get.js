@@ -1,26 +1,26 @@
 const getKey = require('../functions/getKey');
 const output = require('../functions/output');
 const requestPassword = require('../functions/requestPassword')
+const getString = require('../functions/getString')
 
-const printWarningAboutPrivateKey = (args) => {
+const printWarningAboutPrivateKey = async (args) => {
     output(args, `------------------------`)
-    output(args, `IMPORTANT!`)
-    output(args, `NEVER GIVE YOUR PRIVATE KEY TO OTHERS. IF YOU FOUND YOUR PRIVATE KEY IS LEAKED, PLEASE GENERATE A NEW KEY PAIR!`)
+    output(args, await getString('warning-about-private-key'))
     output(args, `------------------------`)
 }
 
 module.exports = (args) => {
     return new Promise((resolve, reject) => {
-        getKey(args.keyName, 'public').then((publicKey) => {
-            output(args, `Public key of key pair '${args.keyName}':`)
+        getKey(args.keyName, 'public').then(async (publicKey) => {
+            output(args, await getString('public-key-of-key-pair', { a: args.keyName }))
             output(args, publicKey)
 
             if (args.params['private'] === true) {
-                requestPassword(args).then((password) => {
-                    getKey(args.keyName, 'private', password).then((privateKey) => {
-                        output(args, `Private key of key pair '${args.keyName}':`)
+                requestPassword(args).then(async (password) => {
+                    getKey(args.keyName, 'private', password).then(async (privateKey) => {
+                        output(args, await getString('private-key-of-key-pair', { a: args.keyName }))
                         output(args, privateKey)
-                        printWarningAboutPrivateKey(args)
+                        await printWarningAboutPrivateKey(args)
 
                         resolve({ public: publicKey, private: privateKey })
                     }).catch(reject)

@@ -2,6 +2,8 @@ const fs = require('fs');
 const readFile = require('../modules/readFile')
 const writeFile = require('../modules/writeFile')
 
+const defaultUserConfig = require('../config/defaultUserConfig')
+
 const USER_CONFIG_PATH = require('./path').userConfig();
 
 class userConfig {
@@ -14,7 +16,16 @@ class userConfig {
         }
     }
 
-    get() {
+    get(params) {
+        if (!params) { params = {} }
+        if (params.allowDefault !== false) {
+            for (const keyDefault in defaultUserConfig) {
+                if (this.config[keyDefault] == undefined) {
+                    this.config[keyDefault] = defaultUserConfig[keyDefault];
+                }
+            }
+        }
+
         return this.config;
     }
 

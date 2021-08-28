@@ -84,11 +84,12 @@ const main = async () => {
             break;
 
         default:
-            const helpMessage = require('./config/helpMessage').helpMessage
+            const getString = require('./functions/getString')
+            const helpMessage = (await require('./config/helpMessage')()).helpMessage
             if (args.command) {
-                if (!args.params.quiet) console.log(`Invalid command '${args.command}'.\n${helpMessage}`)
+                if (!args.params.quiet) console.log(await getString('invalid-command', { a: args.command, b: helpMessage }))
             } else {
-                if (!args.params.quiet) console.log(`No command specified.\n${helpMessage}`)
+                if (!args.params.quiet) console.log(await getString('no-command-specified', { a: helpMessage }))
             }
             break;
     }

@@ -3,12 +3,13 @@ const fs = require('fs')
 
 const readFile = require('../modules/readFile')
 const _p = require('../functions/path')
+const getString = require('../functions/getString')
 
 module.exports = (keyName, type, password) => {
-    return new Promise((resolve, reject) => {
-        const handleErrorKeyNotExist = (err) => {
+    return new Promise(async (resolve, reject) => {
+        const handleErrorKeyNotExist = async (err) => {
             if (err.code == 'ENOENT') {
-                reject(require('./err')(`Key '${keyName}' doesn't exist.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
+                reject(require('./err')(await getString('key-doesnt-exist', { a: keyName }), { code: 'RSA_CLI:KEY_NOT_EXIST' }))
             } else {
                 reject(err)
             }
@@ -27,7 +28,7 @@ module.exports = (keyName, type, password) => {
                 }
             }
         } else {
-            reject(require('./err')(`Key '${keyName}' doesn't exist.`, { code: 'RSA_CLI:KEY_NOT_EXIST' }))
+            reject(require('./err')(await getString('key-doesnt-exist', { a: keyName }), { code: 'RSA_CLI:KEY_NOT_EXIST' }))
         }
     })
 }
