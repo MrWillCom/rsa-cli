@@ -1,6 +1,7 @@
 module.exports = {
     help: require('./commands/help'),
     version: require('./commands/version'),
+    config: require('./commands/config'),
     generate: require('./commands/generate'),
     import: require('./commands/import'),
     encrypt: require('./commands/encrypt'),
