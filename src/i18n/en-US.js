@@ -55,6 +55,9 @@ ${_dash} Delete config [key]:
   ${_$} rsa config set [key]
   ${chalk.grey(`or:`)}
   ${_$} rsa config set [key] unset
+
+${_dash} List config:
+  ${_$} rsa config list
 `
 
 const generate =

@@ -55,6 +55,9 @@ ${_dash} 删除配置项 [key]:
   ${_$} rsa config set [key]
   ${chalk.grey(`或:`)}
   ${_$} rsa config set [key] unset
+
+${_dash} 列出配置项:
+  ${_$} rsa config list
 `
 
 const generate =
