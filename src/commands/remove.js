@@ -3,6 +3,7 @@ const _p = require('../functions/path')
 const inquirer = require('inquirer');
 const removeDirectory = require('../modules/removeDirectory')
 const getString = require('../functions/getString')
+const requestPassword = require('../functions/requestPassword')
 
 module.exports = (args) => {
     return new Promise(async (resolve, reject) => {
@@ -17,22 +18,24 @@ module.exports = (args) => {
                     })
                 }
 
-                if (args.params.quiet) {
-                    deleteKey()
-                } else {
-                    inquirer.prompt([{
-                        type: 'confirm',
-                        name: 'confirm',
-                        message: await getString('are-you-sure-to-remove-key', { a: args.keyName }),
-                        default: false,
-                    }]).then((answers) => {
-                        if (answers.confirm === true) {
-                            deleteKey()
-                        } else {
-                            resolve()
-                        }
-                    })
-                }
+                requestPassword(args).then(async () => {
+                    if (args.params.quiet) {
+                        deleteKey()
+                    } else {
+                        inquirer.prompt([{
+                            type: 'confirm',
+                            name: 'confirm',
+                            message: await getString('are-you-sure-to-remove-key', { a: args.keyName }),
+                            default: false,
+                        }]).then((answers) => {
+                            if (answers.confirm === true) {
+                                deleteKey()
+                            } else {
+                                resolve()
+                            }
+                        })
+                    }
+                }).catch(reject)
             } else {
                 reject(require('../functions/err')(await getString('key-doesnt-exist', { a: args.keyName }), { code: 'RSA_CLI:KEY_NOT_EXIST' }))
             }
