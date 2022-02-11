@@ -14,7 +14,16 @@ module.exports = (args) => {
             var keysList = {};
             for (const i in items) {
                 const keysPath = _p.key(items[i]);
-                if (fs.statSync(keysPath.pair).isDirectory()) {
+                const isDirectory = (() => {
+                    try {
+                        return fs.statSync(keysPath.pair).isDirectory()
+                    } catch (err) {
+                        if (err.code === 'ENOTDIR') {
+                            return false;
+                        }
+                    }
+                })()
+                if (isDirectory) {
                     keysList[items[i]] = {
                         public: fs.existsSync(keysPath.public),
                         private: fs.existsSync(keysPath.private),
