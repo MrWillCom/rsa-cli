@@ -11,6 +11,7 @@ module.exports = (args) => {
     return new Promise(async (resolve, reject) => {
         if (typeof args.keyName == 'undefined') {
             reject(require('../functions/err')(await getString('no-key-name-provided'), { code: 'RSA_CLI:CANNOT_GENERATE_KEY_WITHOUT_KEY_NAME' }))
+            return;
         }
 
         crypto.generateKeyPair('rsa', {
